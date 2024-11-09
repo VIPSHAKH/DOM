@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOMdagi Hodisalar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      color: #333;
+      display: flex;
+      align-items: flex-start;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    #container {
+      width: 60%;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #555;
+      text-align: center;
+    }
+
+    form,
+    textarea,
+    button,
+    #sur,
+    #apke,
+    video {
+      margin: 10px 0;
+      width: 100%;
+    }
+
+    button,
+    input[type="submit"],
+    input[type="reset"] {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: #fff;
+    }
+
+    #sur {
+      width: 100px;
+      height: 100px;
+      background-color: #87CEEB;
+      text-align: center;
+      line-height: 100px;
+      cursor: move;
+      border-radius: 5px;
+    }
+
+    #apke {
+      width: 150px;
+      height: 150px;
+      border: 2px dashed #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+    }
+
+    #console {
+      width: 30%;
+      background-color: #222;
+      color: #0f0;
+      padding: 20px;
+      border-radius: 8px;
+      font-family: monospace;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>DOM</h1>
+    <form id="myForm">
+      <input type="text" id="textInput" placeholder="kiriting" />
+      <input type="submit" value="Yubor" />
+      <input type="reset" value="Tozala" />
+    </form>
+    <textarea id="textArea" placeholder="textarea"></textarea>
+    <button id="knopka">Bosish</button>
+    <button id="dubl_knopka">Double Click</button>
+    <div id="sur" draggable="true">Sur</div>
+    <div id="apke">Drop Zona</div>
+    <video id="video" controls>
+      <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div id="console"></div>
+  <script>
+    function logEvent(event) {
+      const consoleDiv = document.getElementById("console");
+      const message = `${event.type} bo'di ${event.target.tagName || 'blmman'} da `;
+      const logMessage = document.createElement("div");
+      logMessage.textContent = message;
+      consoleDiv.appendChild(logMessage);
+      consoleDiv.scrollTop = consoleDiv.scrollHeight;
+    }
+    window.addEventListener('load', logEvent);
+    window.addEventListener('unload', logEvent);
+    window.addEventListener('resize', logEvent);
+    window.addEventListener('scroll', logEvent);
+    const myForm = document.getElementById('myForm');
+    myForm.addEventListener('submit', (e) => { e.preventDefault(); logEvent(e); });
+    myForm.addEventListener('reset', logEvent);
+    const textInput = document.getElementById('textInput');
+    textInput.addEventListener('focus', logEvent);
+    textInput.addEventListener('blur', logEvent);
+    textInput.addEventListener('input', logEvent);
+    textInput.addEventListener('change', logEvent);
+    textInput.addEventListener('select', logEvent);
+    textInput.addEventListener('keydown', logEvent);
+    textInput.addEventListener('keyup', logEvent);
+    textInput.addEventListener('keypress', logEvent);
+    const knopka = document.getElementById('knopka');
+    knopka.addEventListener('click', logEvent);
+    knopka.addEventListener('mousedown', logEvent);
+    knopka.addEventListener('mouseup', logEvent);
+    knopka.addEventListener('mouseover', logEvent);
+    knopka.addEventListener('mouseout', logEvent);
+    knopka.addEventListener('mouseenter', logEvent);
+    knopka.addEventListener('mouseleave', logEvent);
+    const dubl_knopka = document.getElementById('dubl_knopka');
+    dubl_knopka.addEventListener('dblclick', logEvent);
+    textInput.addEventListener('copy', logEvent);
+    textInput.addEventListener('cut', logEvent);
+    textInput.addEventListener('paste', logEvent);
+    const sur = document.getElementById('sur');
+    const apke = document.getElementById('apke');
+    sur.addEventListener('dragstart', logEvent);
+    sur.addEventListener('drag', logEvent);
+    sur.addEventListener('dragend', logEvent);
+    apke.addEventListener('dragenter', logEvent);
+    apke.addEventListener('dragleave', logEvent);
+    apke.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      logEvent(e);
+    });
+    apke.addEventListener('drop', logEvent);
+    document.addEventListener('touchstart', logEvent);
+    document.addEventListener('touchmove', logEvent);
+    document.addEventListener('touchend', logEvent);
+    document.addEventListener('touchcancel', logEvent);
+    const video = document.getElementById('video');
+    video.addEventListener('play', logEvent);
+    video.addEventListener('pause', logEvent);
+    video.addEventListener('ended', logEvent);
+    video.addEventListener('volumechange', logEvent);
+    video.addEventListener('timeupdate', logEvent);
+    video.addEventListener('seeked', logEvent);
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      logEvent(e);
+    });
+    document.addEventListener('wheel', logEvent);
+    window.addEventListener('error', logEvent);
+    const textArea = document.getElementById('textArea');
+    textArea.addEventListener('input', logEvent); 
+    textArea.addEventListener('change', logEvent); 
+    textArea.addEventListener('focus', logEvent);
+    textArea.addEventListener('blur', logEvent);  
+    textArea.addEventListener('select', logEvent); 
+  </script>
+</body>
+</html>
