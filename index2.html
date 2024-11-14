@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tasbeeh Counter</title>
+    <style>
+      @keyframes firework {
+        0% {
+          transform: scale(0.5);
+          opacity: 0.7;
+        }
+        50% {
+          transform: scale(1.5);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(0);
+          opacity: 0;
+        }
+      }
+
+      .fireworks {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 10px;
+        height: 10px;
+        background: red;
+        border-radius: 50%;
+        animation: firework 1s ease-out infinite;
+      }
+
+      .fireworks::after,
+      .fireworks::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: yellow;
+        animation: firework 1s ease-out infinite;
+      }
+
+      .fireworks::before {
+        animation-delay: 0.3s;
+        background: blue;
+      }
+
+      .fireworks::after {
+        animation-delay: 0.6s;
+        background: green;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-image: url("https://resizer.mail.ru/p/3e1bb782-9d2f-54f7-9b37-80e0311eeb86/AQAKTDFbR0cBBjRRqUSm23U2QqLu9j_PG2fFvhsBZEfIKEDTVrmJzTH9XWtfGEWiMZPLoi3KC6hil6KW7uPvmjEb3KM.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        color: #333;
+      }
+
+      .container {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        max-width: 400px;
+        width: 100%;
+      }
+
+      h1 {
+        font-size: 28px;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      form {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      form#skill {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      label {
+        font-size: 18px;
+        color: #333;
+        flex: 1;
+        text-align: left;
+      }
+
+      input[type="date"],
+      input[type="text"],
+      select {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: box-shadow 0.3s ease;
+      }
+
+      input[type="date"]:focus,
+      input[type="text"]:focus,
+      select:focus {
+        outline: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      #submit {
+        padding: 9px 15px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.1s;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      #submit:hover {
+        background-color: #0056b3;
+      }
+
+      #submit:active {
+        transform: scale(0.95);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .reset-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+        color: #fff;
+        transition: transform 0.1s;
+      }
+
+      .reset-button:hover {
+        transform: scale(1.1);
+      }
+    </style>
+    <div id="fireworkContainer"></div>
+  </head>
+  <body>
+    <button class="reset-button" id="reset">🔄</button>
+    <div class="container">
+      <h1>prosti</h1>
+
+      <form>
+        <label for="birthday">Tug'ilgan kuningiz:</label>
+        <input type="date" id="birthday" name="birthday" />
+        <p id="ageMessage"></p>
+      </form>
+
+      <form>
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" />
+        <button type="submit" id="submit">Tasdiqlash!</button>
+      </form>
+
+      <form>
+        <label for="team">Sevimli jamoangiz:</label>
+        <select name="team" id="team">
+          <option value="Real">Real Madrid</option>
+          <option value="Barcelona">Barcelona</option>
+          <option value="Manchester">Manchester City</option>
+          <option value="Juventus">Juventus</option>
+          <option value="Chelsea">Chelsea</option>
+          <option value="Bayern">Bayern Munich</option>
+          <option value="Liverpool">Liverpool</option>
+          <option value="PSG">Paris Saint-Germain</option>
+          <option value="Manchester United">Manchester United</option>
+          <option value="Atletico Madrid">Atletico Madrid</option>
+          <option value="Arsenal">Arsenal</option>
+          <option value="other">Other</option>
+        </select>
+        <button type="submit" id="submit">Tasdiqlash!</button>
+      </form>
+
+      <form id="skill">
+        <label for="Skills">Nimalarni bilasiz:</label>
+        <div class="checkbox-group">
+          <input type="checkbox" id="html" name="html" value="html" />
+          <label for="html">HTML</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="css" name="css" value="css" />
+          <label for="css">CSS</label>
+        </div>
+        <div class="checkbox-group">
+          <input
+            type="checkbox"
+            id="javascript"
+            name="javascript"
+            value="javascript"
+          />
+          <label for="javascript">JavaScript</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="react" name="react" value="react" />
+          <label for="react">React</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="vue" name="vue" value="vue" />
+          <label for="vue">Vue.js</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="angular" name="angular" value="angular" />
+          <label for="angular">Angular</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="nodejs" name="nodejs" value="nodejs" />
+          <label for="nodejs">Node.js</label>
+        </div>
+        <button type="submit" id="submit">Tasdiqlash!</button>
+      </form>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const birthdayForm = document.querySelector("form:nth-of-type(1)");
+        birthdayForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          const birthday = document.getElementById("birthday").value;
+          if (birthday) {
+            const year = new Date(birthday).getFullYear();
+            alert(
+              `Siz ${year}-yilda tug'ildingiz! va siz ${2024 - year} yoshdasiz!`
+            );
+          } else {
+            alert("Tug'ilgan kuningizni kiriting.");
+          }
+        });
+        const cityForm = document.querySelector("form:nth-of-type(2)");
+        cityForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          const city = document.getElementById("city").value;
+          if (city) {
+            alert(`Sizning shahringiz: ${city}`);
+          } else {
+            alert("Shaharingizni kiriting.");
+          }
+        });
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const teamSelect = document.getElementById("team");
+        const customTeamInput = document.createElement("input");
+        customTeamInput.type = "text";
+        customTeamInput.id = "custom-team";
+        customTeamInput.placeholder = "Jamoa nomini kiriting...";
+        customTeamInput.style.display = "none";
+        teamSelect.parentElement.appendChild(customTeamInput);
+        teamSelect.addEventListener("change", function () {
+          if (teamSelect.value === "other") {
+            customTeamInput.style.display = "block";
+          } else {
+            customTeamInput.style.display = "none";
+          }
+        });
+        const teamForm = document.querySelector("form:nth-of-type(3)");
+        teamForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          let team = teamSelect.value;
+
+          if (team === "other") {
+            team = customTeamInput.value.trim();
+            if (!team) {
+              alert("Iltimos, jamoa nomini kiriting.");
+              return;
+            }
+          }
+
+          alert(`Sizning sevimli jamoangiz: ${team}`);
+        });
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const skillForm = document.querySelector("form#skill");
+        skillForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          const skills = [];
+          const checkboxes = skillForm.querySelectorAll(
+            'input[type="checkbox"]:checked'
+          );
+          checkboxes.forEach(function (checkbox) {
+            skills.push(checkbox.value);
+          });
+
+          let role = "Sizda hali aniq yo'nalish belgilanmagan.";
+
+          if (
+            skills.includes("html") &&
+            skills.includes("css") &&
+            skills.includes("javascript")
+          ) {
+            role = "Front-end dasturchi";
+
+            if (
+              skills.includes("react") ||
+              skills.includes("vue") ||
+              skills.includes("angular")
+            ) {
+              role = "Front-end dasturchi (Framework bilan)";
+            }
+
+            if (skills.includes("Node.js")) {
+              role = "Full-stack dasturchi";
+            }
+          }
+          alert(
+            `Siz quyidagilarni bilasiz: ${skills.join(", ")}\nRolingiz: ${role}`
+          );
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        const birthdayInput = document.getElementById("birthday");
+        const ageMessage = document.getElementById("ageMessage");
+
+        birthdayInput.addEventListener("change", function () {
+          const selectedYear = new Date(birthdayInput.value).getFullYear();
+          const currentYear = new Date().getFullYear();
+
+          if (!selectedYear || isNaN(selectedYear)) {
+            ageMessage.textContent = "";
+            return;
+          }
+
+          if (selectedYear === 2007) {
+            ageMessage.textContent = "Vov, tengdosh ekanmiz!";
+          } else if (selectedYear < 2007) {
+            ageMessage.textContent = "Siz katta ekansiz.";
+          } else {
+            ageMessage.textContent = "Siz kichik ekansiz.";
+          }
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        const teamSelect = document.getElementById("team");
+        const fireworkContainer = document.getElementById("fireworkContainer");
+
+        teamSelect.addEventListener("change", function () {
+          if (teamSelect.value === "Real") {
+            startFireworks();
+          } else {
+            fireworkContainer.innerHTML = "";
+          }
+        });
+
+        function startFireworks() {
+          fireworkContainer.innerHTML = "";
+
+          for (let i = 0; i < 10; i++) {
+            const firework = document.createElement("div");
+            firework.classList.add("fireworks");
+            firework.style.left = Math.random() * 100 + "vw";
+            firework.style.top = Math.random() * 100 + "vh";
+            fireworkContainer.appendChild(firework);
+
+            setTimeout(() => firework.remove(), 1000); 
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
